@@ -1,0 +1,21 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "빌드 + 실행 (현재 파일)",
+      "type": "shell",
+      "command": "g++ -O2 -std=c++17 -o \"${fileDirname}/main\" \"${file}\" && cd \"${fileDirname}\" && ./main < input.txt",
+      "group": { "kind": "build", "isDefault": true },
+      "presentation": { "clear": true, "reveal": "always", "panel": "shared" },
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "빌드 + 실행 (샌티타이저)",
+      "type": "shell",
+      "command": "g++ -O1 -g -std=c++17 -fsanitize=address,undefined -o \"${fileDirname}/main_san\" \"${file}\" && cd \"${fileDirname}\" && ./main_san < input.txt",
+      "group": "build",
+      "presentation": { "clear": true, "reveal": "always", "panel": "shared" },
+      "problemMatcher": ["$gcc"]
+    }
+  ]
+}

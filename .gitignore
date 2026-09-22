@@ -3,12 +3,15 @@
 *.out
 a.out
 main
+main_san
+*.dSYM/
 !main.cpp
 !main.py
 
 # macOS
 .DS_Store
 
-# 에디터
-.vscode/
+# 에디터 (tasks.json 은 공유 설정이라 커밋)
+.vscode/*
+!.vscode/tasks.json
 .idea/

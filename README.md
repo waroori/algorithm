@@ -5,36 +5,51 @@
 ## 구조
 
 ```
-atcoder/<콘테스트><문제>/
-├── main.cpp     제출해서 AC 받은 소스 그대로
-└── README.md    문제 요약 · 접근 · 함정 · 다른 풀이
-template/
-└── main.cpp     새 문제 시작용 보일러플레이트
+new.sh                    새 문제 폴더 생성 스크립트
+template/main.cpp         보일러플레이트
+.vscode/tasks.json        Cmd+Shift+B 로 빌드·실행
+atcoder/<콘테스트>_<문제>/
+├── main.cpp              풀이 소스
+├── input.txt             샘플 입력
+└── README.md             요약 · 접근 · 함정 · 다른 풀이
 ```
 
-작업은 별도 스크래치 파일에서 하고, **AC를 받은 뒤에** 해당 디렉터리로 복사해
-커밋한다. 스크래치 파일을 덮어쓰며 푸는 습관 때문에 이전 풀이가 사라지는 것을
-막기 위한 규칙이다.
-
-## 목록
-
-| 문제 | 배점 | 알고리즘 | 결과 | 메모 |
-|---|---|---|---|---|
-| [ABC176 D — Wizard in Maze](atcoder/abc176_d) | 400 | 0-1 BFS | AC 86ms | 경계 검사 순서 실수로 RE 1회 |
-
-## 로컬 실행
+## 새 문제 풀 때
 
 ```bash
-g++ -O2 -std=c++17 -o main main.cpp
-./main < input.txt
+cd ~/Desktop/algorithm
+./new.sh abc468 d
 ```
 
-범위 밖 접근이 의심되면 샌티타이저로 돌린다. 로컬 `-O2`에서는 멀쩡히 정답이
-나오면서 채점에서만 RE가 나는 경우를 여기서 잡을 수 있다.
+`atcoder/abc468_d/` 가 만들어지고 템플릿·빈 input.txt·README 뼈대가 들어간다.
+그 폴더의 `main.cpp` 를 VSCode에서 열고 바로 작업한다. **복사해 오는 단계는 없다 —
+처음부터 저장소 안에서 푼다.**
+
+AC를 받으면 README를 채우고 커밋한다.
 
 ```bash
-g++ -O1 -g -std=c++17 -fsanitize=address,undefined -o main main.cpp
-./main < input.txt
+git add -A && git commit -m "ABC468 D 풀이 추가" && git push
+```
+
+최상위 목록 표에 한 줄 추가하는 것도 잊지 말 것.
+
+## 빌드·실행
+
+VSCode에서 `main.cpp` 를 연 채로 **Cmd+Shift+B**. 그 파일이 있는 폴더에서
+컴파일하고 `input.txt` 를 물려 실행한다.
+
+터미널로 하려면:
+
+```bash
+g++ -O2 -std=c++17 -o main main.cpp && ./main < input.txt
+```
+
+범위 밖 접근이 의심되면 샌티타이저 빌드를 쓴다 (작업 목록에서 "빌드 + 실행
+(샌티타이저)" 선택). 로컬 `-O2` 에서는 멀쩡히 정답이 나오면서 채점에서만 RE가
+나는 경우를 여기서 잡는다.
+
+```bash
+g++ -O1 -g -std=c++17 -fsanitize=address,undefined -o main_san main.cpp && ./main_san < input.txt
 ```
 
 ## 제출 전 체크리스트
@@ -42,3 +57,9 @@ g++ -O1 -g -std=c++17 -fsanitize=address,undefined -o main main.cpp
 - [ ] `freopen("input.txt", ...)` 주석 처리했는가
 - [ ] 배열 접근 **전에** 경계 검사를 하는가
 - [ ] 도달 불가 / 예외 케이스 출력이 맞는가
+
+## 목록
+
+| 문제 | 배점 | 알고리즘 | 결과 | 메모 |
+|---|---|---|---|---|
+| [ABC176 D — Wizard in Maze](atcoder/abc176_d) | 400 | 0-1 BFS | AC 86ms | 경계 검사 순서 실수로 RE 1회 |
