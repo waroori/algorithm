@@ -1,0 +1,14 @@
+# 컴파일 산출물
+*.o
+*.out
+a.out
+main
+!main.cpp
+!main.py
+
+# macOS
+.DS_Store
+
+# 에디터
+.vscode/
+.idea/
