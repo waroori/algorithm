@@ -63,4 +63,4 @@ g++ -O1 -g -std=c++17 -fsanitize=address,undefined -o main_san abc176_D.cpp && .
 | 문제 | 배점 | 알고리즘 | 결과 | 메모 |
 |---|---|---|---|---|
 | [ABC176 D — Wizard in Maze](atcoder/abc176/D) | 400 | 0-1 BFS | AC 86ms | 경계 검사 순서 실수로 RE 1회 |
-| [ABC477 C — Range Search Query](atcoder/abc477/C) | 300 | 문자열 탐색 + 이분 탐색 | AC | 출현 위치 전처리 후 lower_bound |
+| [ABC477 C — Range Search Query](atcoder/abc477/C) | 300 | 문자열 탐색 + 이분 탐색 | AC 44ms | 출현 위치 전처리 후 lower_bound |

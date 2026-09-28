@@ -4,8 +4,8 @@
 |---|---|
 | 문제 | https://atcoder.jp/contests/abc477/tasks/abc477_c |
 | 배점 | 300 |
-| 결과 | AC |
-| 제출 | |
+| 결과 | AC (44 ms / 5952 KiB) |
+| 제출 | [#79601175 AC](https://atcoder.jp/contests/abc477/submissions/79601175) |
 | 알고리즘 | `문자열 탐색` `이분 탐색(lower_bound)` `전처리` |
 | 푼 날짜 | 2026-09-28 |
 
@@ -30,11 +30,19 @@
 
 O(|S|·|T| + Q log|S|). 최대 입력(|S|=4×10⁵, Q=2×10⁵)에서 0.27초.
 
-## 함정
+## 남아 있는 문제
 
-`lower_bound` 결과가 `end()`인 경우를 놓치면 범위 밖을 읽는다.
-L이 T의 마지막 출현보다 뒤면 `f == idx.size()`가 되는데, `if(idx.size())`는
-벡터가 비었는지만 막을 뿐 이 경우를 막지 못한다.
+AC를 받았지만 이 코드에는 범위 밖 읽기가 남아 있다.
+
+```cpp
+int f = lower_bound(idx.begin(), idx.end(), x) - idx.begin();
+if (idx.size())                     // 벡터가 비었는지만 막는다
+for (int j = f; j < f+1; j++) {
+    if (idx[j] >= x && ...)         // f == idx.size() 면 한 칸 밖
+```
+
+L이 T의 마지막 출현보다 뒤면 `lower_bound`가 `end()`를 돌려줘
+`f == idx.size()`가 된다. `if(idx.size())`는 이 경우를 막지 못한다.
 
 ```
 1
@@ -43,12 +51,21 @@ ab
 6 6
 ```
 
-그냥 돌리면 답이 맞게 나오고 ASan으로 돌려야 heap-buffer-overflow로 잡힌다.
-abc176 D의 `mapp[-1]`과 같은 유형 — 로컬에서는 정답, 채점에서는 RE.
+그냥 돌리면 답이 맞게 나온다. 범위 밖의 쓰레기 값이 우연히 조건을 통과하지
+못하기 때문이다. 무작위 400건에서도 크래시·오답 0건이었고 채점도 15/15
+통과했다. ASan으로 돌려야 30%가 heap-buffer-overflow로 잡힌다.
 
 ```bash
 g++ -O1 -g -std=c++17 -fsanitize=address,undefined -o main_san abc477_C.cpp
 ```
+
+고치려면 한 줄이면 된다.
+
+```cpp
+if (f < (int)idx.size() && idx[f] + (int)T.length() <= y) ans = true;
+```
+
+AC가 떴다고 안전한 코드는 아니다 — 테스트 데이터가 운 좋게 비껴갔을 뿐이다.
 
 ## 다른 풀이
 
